@@ -3,7 +3,7 @@
 
   outputs = { self, nixpkgs }: {
 
-    myGHC = (nixpkgs.haskellPackages.ghcWithPackages (ps: with ps; [
+    myGHC = (nixpkgs.pkgs.haskellPackages.ghcWithPackages (ps: with ps; [
       shake
       hlint
       hoogle
