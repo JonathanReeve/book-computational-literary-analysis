@@ -3,15 +3,18 @@
 
   outputs = { self, nixpkgs }: {
 
-    myGHC = (nixpkgs.legacyPackages.x86_64-linux.haskellPackages.ghcWithPackages
+    myPython = (nixpkgs.legacyPackages.x86_64-linux.python3.withPackages
       (ps: with ps; [
-        shake
-        hlint
-        hoogle
-        turtle
+        pip
+        jupyter
+        jupyterlab
+        jupyter-book
+        pandas
+        nltk
+        spacy
       ]));
 
-    defaultPackage.x86_64-linux = self.myGHC;
+    defaultPackage.x86_64-linux = self.myPython;
 
   };
 }
