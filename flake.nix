@@ -1,11 +1,13 @@
 {
   description = "Introduction to Computational Literary Analysis, a Textbook";
 
-  outputs = { self, nixpkgs }: with nixpkgs.legacyPackages.x86_64-linux.python3Packages; {
+  outputs = { self, nixpkgs }: let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs { inherit system; };
+  in {
+    jupyterBook = pkgs.callPackage ./jupyter-book.nix {};
 
-    jupyterBook = import ./jupyter-book.nix;
-
-    myPython = (nixpkgs.legacyPackages.x86_64-linux.python3.withPackages
+    myPython = (nixpkgs.legacyPackages.${system}.python3.withPackages
       (ps: with ps; [
         # pip
         jupyter
@@ -16,7 +18,6 @@
         # spacy
       ]));
 
-    defaultPackage.x86_64-linux = self.myPython;
-
+    defaultPackage.${system} = self.myPython;
   };
 }
