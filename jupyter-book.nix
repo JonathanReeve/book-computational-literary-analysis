@@ -2,7 +2,7 @@
 
 let
   inherit (python3Packages) buildPythonPackage fetchPypi;
-  attrs = buildPythonPackage rec {
+  attrs20 = buildPythonPackage rec {
     pname = "attrs";
     version = "20.3.0";
     src = fetchPypi {
@@ -19,7 +19,6 @@ let
     src = fetchPypi {
       inherit pname; inherit version;
       sha256 = "1qk0x1bh6pmn2al9kq6cbgvm7pchnzl6ahf4zzpbjljl5lpmabs8";
-
     };
   };
   jupytext = buildPythonPackage rec {
@@ -42,8 +41,8 @@ let
       inherit pname; inherit version;
       sha256 = "0nb6i1hqlipbcpdd7kad26sfhwjxaqnd6md7piaslyzg77gi650w";
     };
-    propagatedBuildInputs = with python3Packages; [
-      attrs
+    propagatedBuildInputs = [
+      attrs20
     ];
   };
   sphinxExternalTOC = buildPythonPackage rec {
@@ -55,11 +54,11 @@ let
       inherit version;
       sha256 = "a72c5861f670f1c7a1b92f2159fc9c7c5370e079cad1e3a7be4b269fa8048e8a";
     };
-    propagatedBuildInputs = with python3Packages; [
-      sphinx
-      attrs
-      click
-      pyyaml
+    propagatedBuildInputs = [
+      python3Packages.sphinx
+      attrs20
+      python3Packages.click
+      python3Packages.pyyaml
     ];
   };
   sphinxComments = buildPythonPackage rec {
@@ -81,10 +80,11 @@ in buildPythonPackage rec {
     inherit version; inherit pname;
     sha256 = "e32298e03c19f514c745062891143693c5e001a098bae9d59d2e4434b2099c54";
   };
-  propagatedBuildInputs = with python3Packages; [
+  propagatedBuildInputs = [
     # click
-    linkify-it-py
-    sphinx
+    attrs20
+    python3Packages.linkify-it-py
+    python3Packages.sphinx
     sphinxComments
     sphinxExternalTOC
     jupytext
