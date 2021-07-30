@@ -1,0 +1,353 @@
+** Functions vs. Methods
+   :PROPERTIES:
+   :CUSTOM_ID: functions-vs.-methods
+   :END:
+
+- Functions can run on lots of things.
+- Methods are object-specific
+
+=print()= and =type()= are functions.
+
+#+begin_src python
+  print(56)
+#+end_src
+
+#+begin_example
+  56
+#+end_example
+
+#+begin_src python
+  type(56)
+#+end_src
+
+#+begin_example
+  int
+#+end_example
+
+** String Methods
+   :PROPERTIES:
+   :CUSTOM_ID: string-methods
+   :END:
+These are functions that only work on strings.
+
+#+begin_src python
+  "Here is string".lower()
+#+end_src
+
+#+begin_example
+  'here is string'
+#+end_example
+
+#+begin_src python
+  "here-is-a-string".split('-')
+#+end_src
+
+#+begin_example
+  ['here', 'is', 'a', 'string']
+#+end_example
+
+** List Methods
+   :PROPERTIES:
+   :CUSTOM_ID: list-methods
+   :END:
+These are functions that only work on lists (and other very list-like data types).
+
+#+begin_src python
+  myList = ["apple", "orange", "banana"]
+#+end_src
+
+#+begin_src python
+  myList.append('kiwi')
+#+end_src
+
+#+begin_src python
+  myList.pop()
+#+end_src
+
+#+begin_example
+  'kiwi'
+#+end_example
+
+#+begin_src python
+  myList
+#+end_src
+
+#+begin_example
+  ['apple', 'orange', 'banana']
+#+end_example
+
+#+begin_src python
+  myList.count("apple")
+#+end_src
+
+#+begin_example
+  1
+#+end_example
+
+#+begin_src python
+  myList.append("apple")
+#+end_src
+
+#+begin_src python
+  myList
+#+end_src
+
+#+begin_example
+  ['apple', 'orange', 'banana', 'apple']
+#+end_example
+
+#+begin_src python
+  myList.count('apple')
+#+end_src
+
+#+begin_example
+  2
+#+end_example
+
+** Indexing Lists
+   :PROPERTIES:
+   :CUSTOM_ID: indexing-lists
+   :END:
+Getting particular items out of a list is a common practice in Python programming.
+
+#+begin_src python
+  myList.index('banana')
+#+end_src
+
+#+begin_example
+  2
+#+end_example
+
+#+begin_src python
+  myList[0]
+#+end_src
+
+#+begin_example
+  'apple'
+#+end_example
+
+#+begin_src python
+  myList[2]
+#+end_src
+
+#+begin_example
+  'banana'
+#+end_example
+
+#+begin_src python
+  myList[50]
+#+end_src
+
+#+begin_example
+  ---------------------------------------------------------------------------
+
+  IndexError                                Traceback (most recent call last)
+
+  <ipython-input-16-a8ca54ea4e9e> in <module>()
+  ----> 1 myList[50]
+
+
+  IndexError: list index out of range
+#+end_example
+
+#+begin_src python
+  myList[-5]
+#+end_src
+
+#+begin_example
+  ---------------------------------------------------------------------------
+
+  IndexError                                Traceback (most recent call last)
+
+  <ipython-input-17-6056870ef1ce> in <module>()
+  ----> 1 myList[-5]
+
+
+  IndexError: list index out of range
+#+end_example
+
+#+begin_src python
+  myList[0:4]
+#+end_src
+
+#+begin_example
+  ['apple', 'orange', 'banana', 'apple']
+#+end_example
+
+#+begin_src python
+  myList[:4]
+#+end_src
+
+#+begin_example
+  ['apple', 'orange', 'banana', 'apple']
+#+end_example
+
+#+begin_src python
+  myList[2:]
+#+end_src
+
+#+begin_example
+  ['banana', 'apple']
+#+end_example
+
+** For Loops
+   :PROPERTIES:
+   :CUSTOM_ID: for-loops
+   :END:
+A =for= loop can allow us to do something with every item in our list:
+
+#+begin_src python
+  for thing in myList: 
+      print(thing + "s are delicious")
+#+end_src
+
+#+begin_example
+  apples are delicious
+  oranges are delicious
+  bananas are delicious
+  apples are delicious
+#+end_example
+
+** Dictionaries
+   :PROPERTIES:
+   :CUSTOM_ID: dictionaries
+   :END:
+Dictionaries are pairs of /keys/ and /values/. A /key/ is used to retrieve a /value/. For example, if I have a dictionary called =fruit=, which represents, say, the amount of fruit I have in my refrigerator at home, it will look like this:
+
+#+begin_src python
+  fruit = {"apples": 5, "kiwi": 2, "bananas": 50}
+#+end_src
+
+Now I can do some things with this dictionary, like get keys out of it, and their associated values.
+
+#+begin_src python
+  # Go through each key in `fruit` and call it `f`
+  for f in fruit: 
+      # Then build up a string using that key (f, the name of the fruit), and its 
+      # associated value, `fruit[f]`, representing the number of fruits that I have. 
+      # Note that since `fruit[f]` is actually an integer, we have to turn it into
+      # a string first using the `str()` function. 
+      print("I Have " + str(fruit[f]) + " " + f + " and they are really delicious!")
+#+end_src
+
+#+begin_example
+  I Have 5 apples and they are really delicious!
+  I Have 2 kiwi and they are really delicious!
+  I Have 50 bananas and they are really delicious!
+#+end_example
+
+Note that =f= is just an arbitrary symbol. It can be anything. I can even call this =thingy= if I want. It just means "what I'm going to call the thing when I'm at its point in the loop."
+
+Here's another way of building up a string, using the =.format()= string method:
+
+#+begin_src python
+  for thingy in fruit: 
+      print("I have {} {} and they are really delicious!".format(fruit[f], thingy))
+#+end_src
+
+#+begin_example
+  I have 50 apples and they are really delicious!
+  I have 50 kiwi and they are really delicious!
+  I have 50 bananas and they are really delicious!
+#+end_example
+
+*** Getting stuff out of dictionaries
+    :PROPERTIES:
+    :CUSTOM_ID: getting-stuff-out-of-dictionaries
+    :END:
+One of the most important things we need to know is how to get stuff out of dictionaries. How many bananas do we have?
+
+#+begin_src python
+  fruit['bananas']
+#+end_src
+
+#+begin_example
+  50
+#+end_example
+
+Now what if, instead of a single number for a value, we have a list of numbers?
+
+#+begin_src python
+  fruit = {"apples": [3, 4, 5], "kiwi": [2], "bananas": 100}
+#+end_src
+
+Then we can index that list after we get the list from the dictionary, by chaining these indices:
+
+#+begin_src python
+  fruit['apples'][2]
+#+end_src
+
+#+begin_example
+  5
+#+end_example
+
+*** Putting stuff in dictionaries
+    :PROPERTIES:
+    :CUSTOM_ID: putting-stuff-in-dictionaries
+    :END:
+We can also create a new item, and assign a value to it, like this:
+
+#+begin_src python
+  fruit['cherries'] = [8, 3]
+#+end_src
+
+#+begin_src python
+  fruit
+#+end_src
+
+#+begin_example
+  {'apples': [3, 4, 5], 'bananas': 100, 'cherries': [8, 3], 'kiwi': [2]}
+#+end_example
+
+** Application: lists of words
+   :PROPERTIES:
+   :CUSTOM_ID: application-lists-of-words
+   :END:
+Imagine we have a list that we created by splitting a string:
+
+#+begin_src python
+  franklin = "The poor ill-used Indians have been most unjustly put in prison"
+#+end_src
+
+#+begin_src python
+  franklin = franklin.split()
+#+end_src
+
+#+begin_src python
+  franklin
+#+end_src
+
+#+begin_example
+  ['The',
+   'poor',
+   'ill-used',
+   'Indians',
+   'have',
+   'been',
+   'most',
+   'unjustly',
+   'put',
+   'in',
+   'prison']
+#+end_example
+
+We can run a =for= loop over it, just like we would with any list. What if we want to shout each word, for instance?
+
+#+begin_src python
+  for word in franklin: 
+      print(word.upper() + '!!!!!!!!')
+#+end_src
+
+#+begin_example
+  THE!!!!!!!!
+  POOR!!!!!!!!
+  ILL-USED!!!!!!!!
+  INDIANS!!!!!!!!
+  HAVE!!!!!!!!
+  BEEN!!!!!!!!
+  MOST!!!!!!!!
+  UNJUSTLY!!!!!!!!
+  PUT!!!!!!!!
+  IN!!!!!!!!
+  PRISON!!!!!!!!
+#+end_example
