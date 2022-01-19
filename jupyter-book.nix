@@ -1,4 +1,4 @@
-{ python3Packages }:
+{ python3Packages, fetchFromGitHub }:
 
 let
   inherit (python3Packages) buildPythonPackage fetchPypi;
@@ -9,9 +9,7 @@ let
       inherit pname; inherit version;
       sha256 = "007pchhxk2nh6m2rgflkkij9xjwysq3fl7xr72cy8i4pw76s6al3";
     };
-    propagatedBuildInputs = with python3Packages; [
-      pytest
-    ];
+    doCheck = false;
   };
   click = buildPythonPackage rec {
     pname = "click";
@@ -31,19 +29,38 @@ let
     propagatedBuildInputs = with python3Packages; [
       toml
       pyyaml
-      markdown-it-py
+      markdown-it-py-06
     ];
   };
   markdown-it-py = buildPythonPackage rec {
     pname = "markdown-it-py";
-    version = "0.6.0";
-    src = fetchPypi {
-      inherit pname; inherit version;
-      sha256 = "0nb6i1hqlipbcpdd7kad26sfhwjxaqnd6md7piaslyzg77gi650w";
+    version = "1.1.0";
+    src = fetchFromGitHub {
+      owner = "executablebooks";
+      repo = "markdown-it-py";
+      rev = "1d27af1da41fd3b00da8307040e6e274925437b2";
+      sha256 = "priZH3ZbJxLm4drYt5Br5BWe+OSf4ZM0tpU7zPKw+UA=";
     };
     propagatedBuildInputs = [
       attrs20
+      # python3Packages.mdit-py-plugins
     ];
+    doCheck = false;
+  };
+  markdown-it-py-06 = buildPythonPackage rec {
+    pname = "markdown-it-py";
+    version = "0.6.2";
+    src = fetchFromGitHub {
+      owner = "executablebooks";
+      repo = "markdown-it-py";
+      rev = "6c2f9005c93d8e2dd9acf3aa367fdaafac516e7f";
+      sha256 = "4T9lC/AWt+SwXM8m6CtcFUolX8nDxEjNIMrLbdtFN70=";
+    };
+    propagatedBuildInputs = [
+      attrs20
+      # python3Packages.mdit-py-plugins
+    ];
+    doCheck = false;
   };
   sphinxExternalTOC = buildPythonPackage rec {
     # https://pypi.org/project/sphinx-comments/
@@ -59,6 +76,7 @@ let
       attrs20
       python3Packages.click
       python3Packages.pyyaml
+      click
     ];
   };
   sphinxComments = buildPythonPackage rec {

@@ -1,108 +1,222 @@
-** Functions vs. Methods
-   :PROPERTIES:
-   :CUSTOM_ID: functions-vs.-methods
-   :END:
+* Python Basics
 
-- Functions can run on lots of things.
-- Methods are object-specific
+Before we can do real literary analysis with computers, we should explore the basics of the Python programming language.
 
-=print()= and =type()= are functions.
+Here's the one-line program that everyone typically learns as a first step to programming in any language:
+
+#+begin_src python :results output
+print("Hello world!")
+#+end_src
+
+#+RESULTS:
+: Hello world!
+
+There are a few things going on here. =print= is the name of a /function/, i.e., a set of instructions for doing something. The parentheses =()= say to /call/, or /execute/ the program, i.e., follow all the instructions. And the quoted message ="Hello world!"= is a /string/: a sequence of characters, or letters.
+
+If you were to write it without the parentheses, it wouldn't work:
 
 #+begin_src python
-  print(56)
+print "Hello world!"
+#+end_src
+
+#+RESULTS:
+
+#+begin_example:
+  File "<stdin>", line 3
+    print "Hello world!"
+          ^
+SyntaxError: Missing parentheses in call to 'print'. Did you mean print("Hello world!")?
+#+end_example
+
+And if you were to write it without quotation marks, it wouldn't work, either:
+
+#+begin_src python
+print(Hello world!)
+#+end_src
+
+#+RESULTS:
+
+#+begin_example
+  File "<stdin>", line 3
+    print(Hello world!)
+                ^
+SyntaxError: invalid syntax
+#+end_example
+
+That's because Python interprets unquoted words as a /name/, or something it's able to look up, like the name of a function or the name of a variable. Since neither =Hello= nor =world!= are names, we get an error.
+
+So when we run the function =print()=, we should run it with something =print()= can handle. It can print a string (quoted text), a number, or the contents of some variable.
+
+Notice that there's a subtle but important difference between these two function calls:
+
+#+begin_src python :results output
+print(56)
 #+end_src
 
 #+begin_example
   56
 #+end_example
 
-#+begin_src python
-  type(56)
+#+begin_src python :results output
+print("56")
 #+end_src
 
+#+RESULTS:
+
 #+begin_example
-  int
+  56
 #+end_example
+
+That's because ="56"= is a /string/ (or =str=, as Python calls it), and =56= is an /integer/, or =int=. You can verify this with the =type()= function:
+
+#+begin_src python :results raw :session session_init
+type("56")
+#+end_src
+
+#+RESULTS:
+<class 'str'>
+
+#+begin_src python :results raw :session session_init
+type(56)
+#+end_src
+
+#+RESULTS:
+<class 'int'>
+
+Types are important concepts in programming, since a computer doesn't know how to add a number to a string:
+
+#+begin_src python :results raw :session session_init
+"56" + 1
+#+end_src
+
+#+RESULTS:
 
 ** String Methods
-   :PROPERTIES:
-   :CUSTOM_ID: string-methods
+:PROPERTIES:
+   :CUSTOM_ID: functions-vs.-methods
    :END:
-These are functions that only work on strings.
 
-#+begin_src python
-  "Here is string".lower()
+In Python, /methods/ are object-specific functions, accessed through a dot (=.=) syntax. So ="Hello world!".upper()= means to call the method =.upper()= on the string ="Hello world!=, uppercasing it:
+
+#+begin_src python :results output
+print("Hello world!".upper())
 #+end_src
 
-#+begin_example
-  'here is string'
-#+end_example
+#+RESULTS:
+: HELLO WORLD!
 
-#+begin_src python
-  "here-is-a-string".split('-')
+Objects don't all have the same available methods. For instance, the =int= or integer object doesn't have an =.upper()= method available, since you can't uppercase an integer.
+
+To find what methods are available to what objects, use the =dir()= function.
+
+#+begin_src python :results output
+print(dir("Hello world!"))
+#+end_Src
+
+#+RESULTS:
+: ['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isascii', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'removeprefix', 'removesuffix', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
+
+Ignoring the double-underscored names for the moment (those are usually reserved for Python's internal use), you'll see there are a lot of things that you can do with a string. Lowercase it:
+
+#+begin_src python :results value :session session_init
+myString = "Here is a string"
+myString.lower()
 #+end_src
 
-#+begin_example
-  ['here', 'is', 'a', 'string']
-#+end_example
+#+RESULTS:
+: here is a string
+
+Replace something in it:
+
+#+begin_src python :results raw :session session_init
+"here is a string".replace('string', 'example')
+#+end_src
+
+#+RESULTS:
+here is a example
+
+Split it according to some separator:
+
+#+begin_src python :results raw :session session_init
+"here-is-a-string".split('-')
+#+end_src
+
+#+RESULTS:
+['here', 'is', 'a', 'string']
+
+You'll notice that many of th string methods start with =is=, like =isalpha= and =isnumeric=. You can use these to test the properties of a string:
+
+#+begin_src python :results raw :session session_init
+"string".isalpha()
+#+end_src
+
+#+RESULTS:
+True
+
+#+begin_src python :results raw :session session_init
+"32".isalpha()
+#+end_src
+
+#+RESULTS:
+False
+
+=True= and =False= are /Boolean/ values. But we'll get to those later.
+
 
 ** List Methods
-   :PROPERTIES:
+:PROPERTIES:
    :CUSTOM_ID: list-methods
    :END:
-These are functions that only work on lists (and other very list-like data types).
 
-#+begin_src python
-  myList = ["apple", "orange", "banana"]
+/Lists/ are a Python data type that can contain a number of items, like strings. They're expressed as comma-separated values inside square brackets. For example:
+
+#+begin_src python :results raw :session session_init
+ulysses_characters = ["Bloom", "Stephen", "Molly"]
+type(ulysses_characters)
 #+end_src
 
-#+begin_src python
-  myList.append('kiwi')
+#+RESULTS:
+<class 'list'>
+
+Like with strings, lists have a number of methods which only work with lists:
+
+#+begin_src python :results raw :session session_init
+dir(list)
 #+end_src
 
-#+begin_src python
-  myList.pop()
+#+RESULTS:
+['__add__', '__class__', '__class_getitem__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+
+You can =.append()= items to the end of a list:
+
+#+begin_src python :results replace :session session_init
+ulysses_characters.append("The Citizen")
+print(ulysses_characters)
 #+end_src
 
-#+begin_example
-  'kiwi'
-#+end_example
+#+RESULTS:
+: None
 
-#+begin_src python
-  myList
+Similarly, you can =.count()= the number of items in a list. This is useful if you have a list of words. Let's say we have a sentence, and we want to count some of its words. First, we might split the sentence into words, using the =.split()= string method:
+
+#+begin_src python :results output :session session_init
+universal_truth = "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."
+universal_truth_words = universal_truth.split()
+print(universal_truth_words)
 #+end_src
 
-#+begin_example
-  ['apple', 'orange', 'banana']
-#+end_example
+#+RESULTS:
+: ['It', 'is', 'a', 'truth', 'universally', 'acknowledged,', 'that', 'a', 'single', 'man', 'in', 'possession', 'of', 'a', 'good', 'fortune,', 'must', 'be', 'in', 'want', 'of', 'a', 'wife.']
 
-#+begin_src python
-  myList.count("apple")
+Notice that =.split()= gives us a =list=. We can then use the =.count()= list method, to count the number of times the word /a/ occurs.
+
+#+begin_src python :results output :session session_init
+print(universal_truth_words.count('a'))
 #+end_src
 
-#+begin_example
-  1
-#+end_example
+#+RESULTS:
+: 4
 
-#+begin_src python
-  myList.append("apple")
-#+end_src
-
-#+begin_src python
-  myList
-#+end_src
-
-#+begin_example
-  ['apple', 'orange', 'banana', 'apple']
-#+end_example
-
-#+begin_src python
-  myList.count('apple')
-#+end_src
-
-#+begin_example
-  2
-#+end_example
 
 ** Indexing Lists
    :PROPERTIES:
@@ -209,9 +323,10 @@ A =for= loop can allow us to do something with every item in our list:
 #+end_example
 
 ** Dictionaries
-   :PROPERTIES:
+:PROPERTIES:
    :CUSTOM_ID: dictionaries
    :END:
+
 Dictionaries are pairs of /keys/ and /values/. A /key/ is used to retrieve a /value/. For example, if I have a dictionary called =fruit=, which represents, say, the amount of fruit I have in my refrigerator at home, it will look like this:
 
 #+begin_src python
