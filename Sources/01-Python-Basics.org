@@ -162,7 +162,6 @@ False
 
 =True= and =False= are /Boolean/ values. But we'll get to those later.
 
-
 ** List Methods
 :PROPERTIES:
    :CUSTOM_ID: list-methods
@@ -217,110 +216,133 @@ print(universal_truth_words.count('a'))
 #+RESULTS:
 : 4
 
+But we can't quite use this to count words, yet, since, among other reasons, =.count()= is case-sensitive, and will only count =a=, and not =A=.
 
-** Indexing Lists
+*** Indexing Lists
    :PROPERTIES:
    :CUSTOM_ID: indexing-lists
    :END:
 Getting particular items out of a list is a common practice in Python programming.
 
-#+begin_src python
-  myList.index('banana')
+#+begin_src python :results value :session session_init
+universal_truth_words.index('universally')
 #+end_src
 
-#+begin_example
-  2
-#+end_example
+#+RESULTS:
+: 4
 
-#+begin_src python
-  myList[0]
+The =.index()= method shows us the numeric location of the word /universally/ in this list. /Universally/ is actually the fifth word, but Python starts counting at zero.
+
+We can also index a list using square brackets:
+
+#+begin_src python :results value :session session_init
+universal_truth_words[0]
 #+end_src
 
-#+begin_example
-  'apple'
-#+end_example
+#+RESULTS:
+: It
 
-#+begin_src python
-  myList[2]
+
+#+begin_src python :results value :session session_init
+universal_truth_words[2]
 #+end_src
 
-#+begin_example
-  'banana'
-#+end_example
+#+RESULTS:
+: a
 
-#+begin_src python
-  myList[50]
+But what happens when we try to get a list item that isn't there?
+
+#+begin_src python :results value :session session_init
+universal_truth_words[50]
 #+end_src
 
-#+begin_example
-  ---------------------------------------------------------------------------
+#+RESULTS:
 
-  IndexError                                Traceback (most recent call last)
+We can also select values using negative numbers, which means we start counting from the last list item:
 
-  <ipython-input-16-a8ca54ea4e9e> in <module>()
-  ----> 1 myList[50]
-
-
-  IndexError: list index out of range
-#+end_example
-
-#+begin_src python
-  myList[-5]
+#+begin_src python :results value :session session_init
+universal_truth_words[-5]
 #+end_src
 
-#+begin_example
-  ---------------------------------------------------------------------------
+#+RESULTS:
+: in
 
-  IndexError                                Traceback (most recent call last)
+And we can select a range of items, by specifying the start and end location:
 
-  <ipython-input-17-6056870ef1ce> in <module>()
-  ----> 1 myList[-5]
-
-
-  IndexError: list index out of range
-#+end_example
-
-#+begin_src python
-  myList[0:4]
+#+begin_src python :results value :session session_init
+universal_truth_words[0:4]
 #+end_src
 
-#+begin_example
-  ['apple', 'orange', 'banana', 'apple']
-#+end_example
+#+RESULTS:
+| It | is | a | truth |
 
-#+begin_src python
-  myList[:4]
+In the particular case of starting with =0=, we can omit the =0=:
+
+#+begin_src python :results value :session session_init
+universal_truth_words[:4]
 #+end_src
 
-#+begin_example
-  ['apple', 'orange', 'banana', 'apple']
-#+end_example
+#+RESULTS:
+| It | is | a | truth |
 
-#+begin_src python
-  myList[2:]
+Similarly, if we want everything from the third item until the end, we can write:
+
+#+begin_src python :results value :session session_init
+universal_truth_words[2:]
 #+end_src
 
-#+begin_example
-  ['banana', 'apple']
-#+end_example
+#+RESULTS:
+| a | truth | universally | acknowledged, | that | a | single | man | in | possession | of | a | good | fortune, | must | be | in | want | of | a | wife. |
 
 ** For Loops
-   :PROPERTIES:
-   :CUSTOM_ID: for-loops
-   :END:
-A =for= loop can allow us to do something with every item in our list:
+:PROPERTIES:
+:CUSTOM_ID: for-loops
+:END:
 
-#+begin_src python
-  for thing in myList: 
-      print(thing + "s are delicious")
+The =for= loop is an incredibly powerful tool for doing things repeatedly. It can allow us to do something with every item in our list. Imagine we have a list that we created by splitting a string:
+
+#+begin_src python :results value :session session_init
+franklin = "The poor ill-used Indians have been most unjustly put in prison"
+franklinWords = franklin.split()
+franklinWords
 #+end_src
 
+#+RESULTS:
+| The | poor | ill-used | Indians | have | been | most | unjustly | put | in | prison |
+
+We can run a =for= loop over it, to do something with each word in the list. What if we want to shout each word, for instance, by uppercasing it and adding a string of exclamation points?
+
+#+begin_src python :results output :session session_init
+for word in franklinWords:
+    print(word.upper() + '!!!!!!!!')
+#+end_src
+
+#+RESULTS:
 #+begin_example
-  apples are delicious
-  oranges are delicious
-  bananas are delicious
-  apples are delicious
+THE!!!!!!!!
+POOR!!!!!!!!
+ILL-USED!!!!!!!!
+INDIANS!!!!!!!!
+HAVE!!!!!!!!
+BEEN!!!!!!!!
+MOST!!!!!!!!
+UNJUSTLY!!!!!!!!
+PUT!!!!!!!!
+IN!!!!!!!!
+PRISON!!!!!!!!
 #+end_example
+
+Let's look at what's going on here.
+
+A =for= loop must:
+
+1. Begin with the keyword =for=.
+2. Be followed by a item name of your choosing (I chose =word= above, since each item is a word).
+3. Be followed by the keyword =in= and the list to be iterated over.
+4. End its first line with a colon, =:=.
+5. Have each subsequent line be indented, to indicate that it's part of the =for= loop.
+
+So =word= here is just the name I'm giving to the item that the =for= loop steps through. At each step of the =for= loop, the value of =word= is the element of the list that we're on. So, the first time it's =the=, then the second time it's =poor=, and so on, until =prison=. At each stage, =word= is capitalized with =.upper()=, and a string of exclamation marks are added.
 
 ** Dictionaries
 :PROPERTIES:
@@ -418,51 +440,4 @@ We can also create a new item, and assign a value to it, like this:
    :PROPERTIES:
    :CUSTOM_ID: application-lists-of-words
    :END:
-Imagine we have a list that we created by splitting a string:
 
-#+begin_src python
-  franklin = "The poor ill-used Indians have been most unjustly put in prison"
-#+end_src
-
-#+begin_src python
-  franklin = franklin.split()
-#+end_src
-
-#+begin_src python
-  franklin
-#+end_src
-
-#+begin_example
-  ['The',
-   'poor',
-   'ill-used',
-   'Indians',
-   'have',
-   'been',
-   'most',
-   'unjustly',
-   'put',
-   'in',
-   'prison']
-#+end_example
-
-We can run a =for= loop over it, just like we would with any list. What if we want to shout each word, for instance?
-
-#+begin_src python
-  for word in franklin: 
-      print(word.upper() + '!!!!!!!!')
-#+end_src
-
-#+begin_example
-  THE!!!!!!!!
-  POOR!!!!!!!!
-  ILL-USED!!!!!!!!
-  INDIANS!!!!!!!!
-  HAVE!!!!!!!!
-  BEEN!!!!!!!!
-  MOST!!!!!!!!
-  UNJUSTLY!!!!!!!!
-  PUT!!!!!!!!
-  IN!!!!!!!!
-  PRISON!!!!!!!!
-#+end_example
