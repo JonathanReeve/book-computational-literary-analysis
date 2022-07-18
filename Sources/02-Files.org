@@ -1,94 +1,65 @@
 ** Working with Files
-   :PROPERTIES:
+:PROPERTIES:
    :CUSTOM_ID: working-with-files
    :END:
+
 First, let's make sure we know what directory Jupyter is working in. To use this, run =%pwd=, which stands for "print working directory." The =%= prefix is used for Jupyter "magic" commands (to see a full list, run =%lsmagic=).
 
 #+begin_src python
-  %pwd
+%pwd
 #+end_src
 
-#+begin_example
-  '/home/jon/Code/course-computational-literary-analysis/Notes'
-#+end_example
+#+RESULTS:
 
 Now let's make sure that the file we downloaded earlier, =moonstone.md=, is in our working directory. You can download this file from [[https://raw.githubusercontent.com/JonathanReeve/course-computational-literary-analysis/gh-pages/_texts/moonstone.md][the gh-pages branch of the course repository]].
 
 #+begin_src python
-  %ls
+%ls
 #+end_src
 
-#+begin_example
-  ICLA-Files.ipynb  ICLA-Notes-2.ipynb  ICLA-Words.ipynb
-#+end_example
 
 If we're not in the right directory, we can change to a different directory using the =%cd= command.
 
 #+begin_src python
-  %cd Homework
+%cd Homework
 #+end_src
 
-#+begin_example
-  [Errno 2] No such file or directory: 'Homework'
-  /home/jon/Code/course-computational-literary-analysis/Notes
-#+end_example
 
 #+begin_src python
-  %ls
+%ls
 #+end_src
 
-#+begin_example
-  ICLA-Files.ipynb  ICLA-Notes-2.ipynb  ICLA-Words.ipynb
-#+end_example
 
 #+begin_src python
-  %pwd
+%pwd
 #+end_src
-
-#+begin_example
-  '/home/jon/Code/course-computational-literary-analysis/Notes'
-#+end_example
 
 We can also change to the higher-level or "parent" directory, which is called =..=
 
 #+begin_src python
-  %cd ..
+%cd ..
 #+end_src
 
-#+begin_example
-  /home/jon/Code/course-computational-literary-analysis
-#+end_example
 
 #+begin_src python
-  %ls
+%ls
 #+end_src
 
-#+begin_example
-  [0m[01;34mHomework[0m/  [01;34mHW1[0m/  LICENSE  moonstone.md  [01;34mNotes[0m/  README.md
-#+end_example
 
-When trying to open a file, you must either provide: - The full path to your file (/home/yourname or C:...) - Or the relative path to local file in your working directory.
+When trying to open a file, you must either provide the full path to your file (/home/yourname or C:...), or the relative path to local file in your working directory.
 
 Since I know that my working directory has =moonstone.md= in it (I can see that by the output of =%ls= above), I can just open =moonstone.md=. But if this file were in my Downloads folder, which on my operating system is =/home/jon/Downloads=, I might want to open the file =/home/jon/Downloads/moonstone.md=.
 
 The command below opens the plain text file for /The Moonstone/, gets the plain text out of it (i.e. reads it), and stores the resulting string in the variable called =moonstone=.
 
 #+begin_src python
-  moonstone = open('moonstone.md').read()
+moonstone = open('moonstone.md').read()
 #+end_src
 
 Let's verify that it worked, by peeking at the first 500 characters of the file.
 
 #+begin_src python
-  len(moonstoneParts)
-#+end_src
-
-#+begin_example
-  69
-#+end_example
-
-#+begin_src python
-  print(moonstone[:500])
+print(moonstone[:500])
 #+end_src
 
 #+begin_example
@@ -125,13 +96,13 @@ Let's verify that it worked, by peeking at the first 500 characters of the file.
 Yep, that's it. Let's get some different parts of this file by splitting it on occurrences of =##=.
 
 #+begin_src python
-  moonstoneParts = moonstone.split('##')
+moonstoneParts = moonstone.split('##')
 #+end_src
 
 Now let's look around, to find which are the parts of the prologue.
 
 #+begin_src python
-  print(moonstoneParts[1][:500])
+print(moonstoneParts[1][:500])
 #+end_src
 
 #+begin_example
@@ -154,7 +125,7 @@ Now let's look around, to find which are the parts of the prologue.
 That looks about right. Now where's part IV of the prologue?
 
 #+begin_src python
-  print(moonstoneParts[4][:200])
+print(moonstoneParts[4][:200])
 #+end_src
 
 #+begin_example
@@ -168,22 +139,18 @@ That looks about right. Now where's part IV of the prologue?
 Great. So let's grab those four parts, as a list.
 
 #+begin_src python
-  prologue = moonstoneParts[1:5]
+prologue = moonstoneParts[1:5]
 #+end_src
 
 #+begin_src python
-  type(prologue)
+type(prologue)
 #+end_src
-
-#+begin_example
-  list
-#+end_example
 
 Let's use a =for= loop to show the length of each chapter in the prologue:
 
 #+begin_src python
-  for part in prologue: 
-      print(len(part))
+for part in prologue:
+    print(len(part))
 #+end_src
 
 #+begin_example
@@ -196,8 +163,8 @@ Let's use a =for= loop to show the length of each chapter in the prologue:
 Now we can count how often certain words occur in each part of the prologue. Here I'm also lowercasing each part first, so that "MOONSTONE," "Moonstone," and "moonstone" are treated the same.
 
 #+begin_src python
-  for part in prologue:
-      print(part.lower().count('moonstone'))
+for part in prologue:
+    print(part.lower().count('moonstone'))
 #+end_src
 
 #+begin_example
@@ -206,3 +173,5 @@ Now we can count how often certain words occur in each part of the prologue. Her
   3
   0
 #+end_example
+
+Note that this is not quite yet a robust method for counting words. Even though we're normalizing the text to lowercase, =.count()= counts subwords as well as words, since it is blind to whitespace. Thus, searching for /tea/ would get counts of words like /teal/, and searching for /moonstone/ would also count the subword inside /moonstoned/.

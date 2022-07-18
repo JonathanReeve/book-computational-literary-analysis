@@ -2,7 +2,7 @@
   :PROPERTIES:
   :CUSTOM_ID: words-tokens-stems-lemmas
   :END:
-** and the NLTK
+** And the NLTK
    :PROPERTIES:
    :CUSTOM_ID: and-the-nltk
    :END:
