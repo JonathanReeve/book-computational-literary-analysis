@@ -5,19 +5,28 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
   in {
-    jupyterBook = pkgs.callPackage ./jupyter-book.nix {};
 
     myPython = (nixpkgs.legacyPackages.${system}.python3.withPackages
       (ps: with ps; [
-        # pip
         jupyter
         jupyterlab
-        self.jupyterBook
         pandas
         nltk
         # spacy
       ]));
 
+    emacsEnv = (nixpkgs.emacsWithPackages (epkgs: with nixpkgs.emacsPackages; [
+      org
+      org-babel
+     ]));
+
+    haskellEnv = (nixpkgs.haskellPackages.ghcWithPackages (ps: with ps; [
+       # pandoc-citeproc
+       shake         # Build tool
+       hlint         # Required for spacemacs haskell-mode
+     ]));
+
     defaultPackage.${system} = self.myPython;
   };
+
 }
